@@ -4,17 +4,17 @@ import messages from "../services/messages.json";
 
 const prisma = new PrismaClient()
 
-export default{
-    createUser:(req:any,res:any)=>{
+export default {
+    createUser: (req: any, res: any) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const { email, name} = req.body
+                const { email, name } = req.body
                 const user = await prisma.user.create({
                     data: {
-                      email,
-                      name
+                        email,
+                        name
                     },
-                  })
+                })
 
                 if (user) {
                     return resolve({
@@ -22,7 +22,7 @@ export default{
                         error: false,
                         result: user,
                         code: "USER_CREATED",
-                        message:"USER_CREATED"
+                        message: "USER_CREATED"
                     })
                 }
                 else {
@@ -49,12 +49,12 @@ export default{
         })
 
     },
-    getAllUser:(req:any,res:any)=>{
-        return new Promise(async(resolve,reject)=>{
-            try{
-                const getuser=await prisma.user.findMany()
-                console.log(getuser,"getUser")
-                if(getuser){
+    getAllUser: (req: any, res: any) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const getuser = await prisma.user.findMany()
+                console.log(getuser, "getUser")
+                if (getuser) {
                     return resolve({
                         status: 200,
                         error: false,
@@ -62,28 +62,38 @@ export default{
                         code: "USER_FOUND",
                         message: messages["USER_FOUND"]
                     })
-                }else{
+                } else {
                     return reject({
                         status: 404,
                         error: true,
                         code: "USER_NOT_EXISTS",
-                        message:"USER_NOT_EXISTS"
+                        message: "USER_NOT_EXISTS"
                     })
                 }
 
-            }catch(err){
+            } catch (err) {
                 return reject({
-                        status: 500,
-                        error: true,
-                        result: err,
-                        code: "INTERNAL_SERVER_ERROR",
-                        message: "INTERNAL_SERVER_ERROR"
+                    status: 500,
+                    error: true,
+                    result: err,
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: "INTERNAL_SERVER_ERROR"
                 })
-    
+
             }
 
         })
-   
+
+    },
+    getUser: (req: any) => {
+        return new Promise(async (resolve, reject) => {
+try{
+    const user=await prisma
+}catch(err){
+    return reject({
+
+    })
+}
+        })
     }
 }
-  
