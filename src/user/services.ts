@@ -85,15 +85,42 @@ export default {
         })
 
     },
-    getUser: (req: any) => {
+    getUserById: (req: any) => {
         return new Promise(async (resolve, reject) => {
-try{
-    const user=await prisma
-}catch(err){
-    return reject({
-
-    })
-}
+            try {
+                const id = parseInt(req.params.userId); //for converting string to number
+                const user = await prisma.user.findUnique({
+                    where: {
+                        id: id
+                    }
+                })
+                console.log(user,"user")
+                if(user){
+                    return resolve({
+                        status: 200,
+                        error: false,
+                        result: user,
+                        code: "DATA_FOUND",
+                        message: messages["DATA_FOUND"]
+                    })
+                }else{
+                    return reject({
+                            status: 404,
+                            error: true,
+                            code: "DATA_NOT_FOUND",
+                            message: messages["DATA_NOT_FOUND"]
+                    })
+                }
+            } catch (err) {
+                console.log(err,"error: ")
+                return reject({
+                    status: 500,
+                    result:err,
+                    error: true,
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: messages["INTERNAL_SERVER_ERROR"]
+                })
+            }
         })
     }
 }

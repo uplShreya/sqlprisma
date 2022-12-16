@@ -13,7 +13,7 @@ const router = express.Router();
  */
 
 router.post("/", async (req: any, res: any) => {
-    userServices.createUser(req,res)
+    userServices.createUser(req, res)
         .then((response: any) => {
             return res.send({
                 status: response.status,
@@ -40,25 +40,57 @@ router.post("/", async (req: any, res: any) => {
  * @access - PUBLIC
  * @function - createContact
  */
-router.get("/",async(req:any, res:any) => {
-    userServices.getAllUser(req,res)
-    .then((response:any) => {
-        return res.send({
-            status: response.status,
-            error: response.error,
-            result: response.result,
-            code: response.code,
-            message: response.message,
-        });
-    })
-    .catch((err:any) => {
-        return res.send({
-            status: err.status,
-            error: err.error,
-            result: err.result,
-            code: err.code,
-            message: err.message,
-        });  
-    })
+router.get("/", async (req: any, res: any) => {
+    userServices.getAllUser(req, res)
+        .then((response: any) => {
+            return res.send({
+                status: response.status,
+                error: response.error,
+                result: response.result,
+                code: response.code,
+                message: response.message,
+            });
+        })
+        .catch((err: any) => {
+            return res.send({
+                status: err.status,
+                error: err.error,
+                result: err.result,
+                code: err.code,
+                message: err.message,
+            });
+        })
 })
+
+/**
+ * @type - GET
+ * @route -  /api/user/getid/:userId
+ * @desc - route for get user by Id.
+ * @access - PUBLIC
+ * @function - getUserById
+ */
+
+router.get('/getid/:userId', async (req: any, res: any) => {
+    userServices.getUserById(req)
+        .then((response: any) => {
+            return res.send({
+                status: response.status,
+                error: response.error,
+                result: response.result,
+                code: response.code,
+                message: response.message,
+            })
+        })
+        .catch((err: any) => {
+            return res.send({
+                status: err.status,
+                error: err.error,
+                result: err.result,
+                code: err.code,
+                message: err.message,
+            });
+        })
+})
+
+
 export default router;
